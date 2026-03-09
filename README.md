@@ -54,7 +54,13 @@ url-shortener-system
 │   └── shortener.py
 │
 ├── database
+│   ├── db.py
 │   └── models.py
 │
+├── cache
+│   └── redis_client.py
+│
+├── requirements.txt
+├── Dockerfile
 └── README.md
 ```
