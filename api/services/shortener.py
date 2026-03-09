@@ -1,10 +1,10 @@
 import string
 import random
+from sqlalchemy.orm import Session
+from database.models import URL
 
 BASE_URL = "http://localhost:8000/"
 
-# temporary storage
-url_database = {}
 
 def generate_short_code(length=6):
     characters = string.ascii_letters + string.digits
@@ -12,11 +12,18 @@ def generate_short_code(length=6):
     return short_code
 
 
-def create_short_url(long_url):
+def create_short_url(db: Session, long_url: str):
+
     code = generate_short_code()
 
-    # store mapping
-    url_database[code] = long_url
+    db_url = URL(
+        long_url=long_url,
+        short_code=code
+    )
+
+    db.add(db_url)
+    db.commit()
+    db.refresh(db_url)
 
     short_url = BASE_URL + code
 
@@ -27,5 +34,11 @@ def create_short_url(long_url):
     }
 
 
-def get_long_url(code):
-    return url_database.get(code)
+def get_long_url(db: Session, code: str):
+
+    url = db.query(URL).filter(URL.short_code == code).first()
+
+    if url:
+        return url.long_url
+
+    return None
