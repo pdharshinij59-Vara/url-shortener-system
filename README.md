@@ -43,3 +43,18 @@ GET /Ab23xY
 Redirects to original URL.
 
 ## Project Structure
+
+```
+url-shortener-system
+│
+├── api
+│   └── main.py
+│
+├── services
+│   └── shortener.py
+│
+├── database
+│   └── models.py
+│
+└── README.md
+```
